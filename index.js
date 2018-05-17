@@ -13,6 +13,14 @@ const app = {
             })
     },
 
+    deleteListItem(ev) {
+        console.log('delete')
+    },
+
+    favoriteListItem(ev) {
+        console.log('fav')
+    },
+
     renderListItem(flick) {
         const item = this.template.cloneNode(true)
         item.classList.remove('template')
@@ -20,6 +28,19 @@ const app = {
         item
             .querySelector('.flickName')
             .textContent = flick.name
+
+        const itemActions = item.querySelector('.actions')
+
+        const deleteButton = itemActions.querySelector('button.alert')
+        const favoriteButton = itemActions.querySelector('button.warning')
+
+        deleteButton.addEventListener('click', (ev) => {
+            this.deleteListItem(ev)
+        })
+        favoriteButton.addEventListener('click', (ev) => {
+            this.favoriteListItem(ev)
+        })
+
         return item
     },
 
