@@ -14,11 +14,45 @@ const app = {
     },
 
     deleteListItem(ev) {
-        console.log('delete')
+        
+        //this should get the li element of the button that was clicked
+        const item = ev.target.parentNode.parentNode
+        const itemID = item.dataset.id
+
+        //remove item from flick array
+        this.flicks.forEach((obj) => {
+            if (itemID === obj.id.toString()) {
+                this.flicks.splice(this.flicks.indexOf(obj), 1)
+            }
+        })
+
+        //remove item from list
+        item.remove()
+
     },
 
     favoriteListItem(ev) {
-        console.log('fav')
+        
+        //the li element to be styled
+        const item = ev.target.parentNode.parentNode
+        const itemID = item.dataset.id
+
+        let favStatus = false
+
+        this.flicks.forEach((obj) => {
+            if (itemID === obj.id.toString()) {
+                obj.fav = !(obj.fav)
+                favStatus = obj.fav
+            }
+        })
+
+        if (favStatus) {
+            item.style.backgroundColor = '#dfdfdf'
+        }
+        else {
+            item.style.backgroundColor = '#ffffff'
+        }
+
     },
 
     renderListItem(flick) {
@@ -49,6 +83,7 @@ const app = {
         const flick = {
             id: ++this.max,
             name: f.flickName.value,
+            fav: false,
         }
 
         this.flicks.unshift(flick)
