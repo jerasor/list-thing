@@ -2,3 +2,11 @@ main {
     width: 80%;
     margin: 1rem auto;
 }
+
+.actions .button {
+    margin-bottom: 0
+}
+
+.flickName {
+    margin: 0 0.75rem
+}
