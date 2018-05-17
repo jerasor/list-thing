@@ -4,6 +4,10 @@ main {
 }
 
 .actions .button {
+    margin: .75rem .25rem
+}
+
+.button-group {
     margin-bottom: 0
 }
 
