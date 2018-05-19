@@ -13,6 +13,20 @@ const app = {
             })
     },
 
+    getFlickItem(itemID) {
+
+        let itemToReturn
+
+        this.flicks.forEach((obj) => {
+            if (itemID === obj.id.toString()) {
+                itemToReturn = obj
+            }
+        })
+
+        return itemToReturn
+
+    },
+
     deleteListItem(ev) {
         
         //this should get the li element of the button that was clicked
@@ -20,11 +34,9 @@ const app = {
         const itemID = item.dataset.id
 
         //remove item from flick array
-        this.flicks.forEach((obj) => {
-            if (itemID === obj.id.toString()) {
-                this.flicks.splice(this.flicks.indexOf(obj), 1)
-            }
-        })
+        const flickObj = this.getFlickItem(itemID)
+        this.flicks.splice(this.flicks.indexOf(flickObj), 1)
+          
 
         //remove item from list
         item.remove()
@@ -37,22 +49,30 @@ const app = {
         const item = ev.target.parentNode.parentNode
         const itemID = item.dataset.id
 
-        let favStatus = false
+        const flickObj = this.getFlickItem(itemID)
+        flickObj.fav = !(flickObj.fav)
+        
 
-        this.flicks.forEach((obj) => {
-            if (itemID === obj.id.toString()) {
-                obj.fav = !(obj.fav)
-                favStatus = obj.fav
-            }
-        })
-
-        if (favStatus) {
+        if (flickObj.fav) {
             item.style.backgroundColor = '#dfdfdf'
         }
         else {
             item.style.backgroundColor = '#ffffff'
         }
 
+    },
+
+    moveListItemUp(ev) {
+
+        //li element to be moved
+        const item = ev.target.parentNode.parentNode
+        const itemID = item.dataset.id
+
+
+    },
+
+    moveListItemDown(ev) {
+        console.log('down')
     },
 
     renderListItem(flick) {
@@ -67,12 +87,20 @@ const app = {
 
         const deleteButton = itemActions.querySelector('button.alert')
         const favoriteButton = itemActions.querySelector('button.warning')
+        const upButton = itemActions.querySelector('button.up')
+        const downButton = itemActions.querySelector('button.down')
 
         deleteButton.addEventListener('click', (ev) => {
             this.deleteListItem(ev)
         })
         favoriteButton.addEventListener('click', (ev) => {
             this.favoriteListItem(ev)
+        })
+        upButton.addEventListener('click', (ev) => {
+            this.moveListItemUp(ev)
+        })
+        downButton.addEventListener('click', (ev) => {
+            this.moveListItemDown(ev)
         })
 
         return item
