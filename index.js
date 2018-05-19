@@ -27,6 +27,13 @@ const app = {
 
     },
 
+    swapFlickItem(flickOneIndex, flickTwoIndex) {
+        const tempObj = this.flicks[flickOneIndex]
+
+        this.flicks[flickOneIndex] = this.flicks[flickTwoIndex]
+        this.flicks[flickTwoIndex] = tempObj
+    },
+
     deleteListItem(ev) {
         
         //this should get the li element of the button that was clicked
@@ -66,13 +73,43 @@ const app = {
 
         //li element to be moved
         const item = ev.target.parentNode.parentNode
+
+        if (item === item.parentNode.firstElementChild) {
+            return
+        }
+
         const itemID = item.dataset.id
+
+        item.parentNode.insertBefore(item, item.previousSibling)
+
+        const itemObject = this.getFlickItem(itemID)
+
+        const itemObjectIndex = this.flicks.indexOf(itemObject)
+
+        this.swapFlickItem(itemObjectIndex, itemObjectIndex-1)
 
 
     },
 
     moveListItemDown(ev) {
-        console.log('down')
+
+        //li element to be moved
+        const item = ev.target.parentNode.parentNode
+        
+        if (item === item.parentNode.lastElementChild) {
+            return
+        }
+
+        const itemID = item.dataset.id
+        
+        item.parentNode.insertBefore(item.nextSibling, item)
+        
+        const itemObject = this.getFlickItem(itemID)
+
+        const itemObjectIndex = this.flicks.indexOf(itemObject)
+        
+        this.swapFlickItem(itemObjectIndex, itemObjectIndex+1)
+
     },
 
     renderListItem(flick) {
