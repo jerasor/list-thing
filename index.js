@@ -112,6 +112,20 @@ const app = {
 
     },
 
+    changeText(ev) {
+
+        //li element to updateText for (in the flicks array)
+        const item = ev.target.parentNode
+        const itemID = item.dataset.id
+
+        const text = ev.target
+
+        const itemObject = this.getFlickItem(itemID)
+
+        itemObject.name = text.innerText
+
+    },
+
     renderListItem(flick) {
         const item = this.template.cloneNode(true)
         item.classList.remove('template')
@@ -126,6 +140,7 @@ const app = {
         const favoriteButton = itemActions.querySelector('button.warning')
         const upButton = itemActions.querySelector('button.up')
         const downButton = itemActions.querySelector('button.down')
+        const editableText = item.querySelector('.flickName')
 
         deleteButton.addEventListener('click', (ev) => {
             this.deleteListItem(ev)
@@ -138,6 +153,9 @@ const app = {
         })
         downButton.addEventListener('click', (ev) => {
             this.moveListItemDown(ev)
+        })
+        editableText.addEventListener('input', (ev) => {
+            this.changeText(ev)
         })
 
         return item
